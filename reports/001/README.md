@@ -17,7 +17,7 @@ Copyright treaties can only deal with the exclusive right to use the work. The m
 ## Licenses
 
 ### Introduction
-Open source licenses grant permission to everyone to use, modify, and share licensed software for any purpose, subject to conditions preserving the provenance and openness of the software. There are several most widely used types of licenses. All of them allow commercial use, making modifications, distribution and private use. The same time all of them do not provide any warranty.
+License could be free or non-free. Open source licenses grant permission to everyone to use, modify, and share licensed software for any purpose, subject to conditions preserving the provenance and openness of the software. There are several most widely used types of licenses. All of them allow commercial use, making modifications, distribution and private use. The same time all of them do not provide any warranty.
 
 ### GNU GPLv3
 Any changes to the program made by the user and distributed by him, must have the source code of these changes. Changes must be stated. Copyright and license notices must be preserved. The new software mast be distributed under the same license.
@@ -41,3 +41,4 @@ Permissions of this weak copyleft license are conditioned on making available so
 - [Лицензионный договор в авторском праве](https://sumip.ru/biblioteka/avtorskoye-pravo/dogovory-v-avtorskom-prave/licenzionnyj-dogovor-v-avtorskom-prave/)
 - [Licenses](https://choosealicense.com/licenses/)
 - [Лицензии открытого кода: краткое руководство](https://te-st.ru/2017/10/12/rules-and-licenses-open-source/)
+- [Деньги в технологиях с открытым исходным кодом](https://blog.maddevs.io/money-in-open-source-64fa61e92237)
