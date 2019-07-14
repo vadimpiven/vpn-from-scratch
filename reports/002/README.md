@@ -34,13 +34,20 @@ IP address consists of subnet address and host address, range of host addresses 
 ## VLAN
 
 ### Definition
+Virtual Local Area Network is a group of devices which can communicate with each other on data link layer regardless of their physical location. In the same time, devices located in different VLANs can interact with each other only on network layer even if they are physically connected to the same switch.
 
+### Communication
+By default, each device connected to swith is identified by switch port it's connected to, MAC address and VLAN number. In order to exchange information between devices located in the same VLAN but physically connected to different switches, it is necessary that there exists a channel between these switches also related to this particular VLAN. Such cnannel is called untagged. When there are two VLANs both represented on two different switches – two untagged channels are required to make data exchange possible. The same time, it's possible to configure a tagged channel called 'trunk'. When data is passed through a trunk it is labeled with tag, marking to which VLAN the passed data relates. When a tagged data is passed through an untagged channel or when a data passed is intended to be delivered to the same swith port it came from - frame will be dropped by switch.
+
+### Transferring tagged data over the Internet
+By default tagged frames wouldn't be transfered over the internet. The easyest way to save tags is to transfer data over the VPN bridge (VTun or OpenVPN).
 
 ## Sources
 - [Сетевая модель OSI](https://ru.wikipedia.org/wiki/Сетевая_модель_OSI)
 - [TCP/IP](https://ru.wikipedia.org/wiki/TCP/IP)
-- [VLAN](http://xgu.ru/wiki/VLAN)
 - [IP-адрес](http://xgu.ru/wiki/IP-адрес)
 - [IP address](https://en.wikipedia.org/wiki/IP_address)
+- [VLAN](http://xgu.ru/wiki/VLAN)
+- [OpenVPN Bridge](http://xgu.ru/wiki/OpenVPN_Bridge)
 - [Сети для самых маленьких. Часть нулевая. Планирование](https://linkmeup.ru/blog/11.html)
 - [Сети для самых маленьких. Часть первая (которая после нулевой). Подключение к оборудованию cisco](https://linkmeup.ru/blog/12.html)
