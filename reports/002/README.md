@@ -43,6 +43,7 @@ By default, each device connected to swith is identified by switch port it's con
 By default tagged frames wouldn't be transfered over the internet. The easiest way to save tags is to transfer data over the VPN bridge (VTun or OpenVPN).
 
 ## Sources
+- [Network communications](Network_communication layers.pdf)
 - [Сетевая модель OSI](https://ru.wikipedia.org/wiki/Сетевая_модель_OSI)
 - [TCP/IP](https://ru.wikipedia.org/wiki/TCP/IP)
 - [IP-адрес](http://xgu.ru/wiki/IP-адрес)
