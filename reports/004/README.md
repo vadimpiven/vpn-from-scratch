@@ -30,7 +30,7 @@ Network Address Translation – allows to connect the Internet from private netw
 
 ## IPv6
 IPv6 is a successor of IPv4 protocol. Nowadays all public IPv4 addresses have been sold and most of them are currently in use. That's why the IPv4 containing 4,294,967,296 addresses is currently in process of replacing with IPv6 with 340,282,366,920,938,463,463,374,607,431,768,211,456 addresses. IPv6 will make routing tables smaller and routing faster (because if the IP addresses in the subnet are not consecutive, they should be listed in the routing table; the idea was that the initial bits of the IP address can mark where to redirect the packets without using additional tables, but this is only possible when the ip addresses are distributed as a consecutive blocks). IPv6 header is simpler then IPv4.
-![IPv4 and IPv6 package header structure](https://raw.githubusercontent.com/vadimpiven/vpn-from-scratch/master/reports/004/ipv4_ipv6.jpg)
+![IPv4 and IPv6 package header structure](ipv4_ipv6.jpg)
 Time to Live (TTL) field is replaced by Hop Limit (each hop decrements the value of this field, when it turns into 0 the packet is dropped and ICMP message is sent that packet was not delivered). Loopback IP changed from 127.0.0.1 to ::1. Private IP range goes from FC00::/7 till FDFF::/7. IPv6 subnet 2001:0DB8::/32 is reserved for documentation purposes (192.0.2.0/24 is reserved for documentation in IPv4).
 
 ## Sources
