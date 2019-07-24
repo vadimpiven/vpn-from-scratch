@@ -2,53 +2,70 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
-	"sort"
 	"strconv"
 )
 
-type PathInfo struct {
-	Name  string
-	IsDir bool
-}
-
-func filter(names []string, path string, printFiles bool) ([]PathInfo, error) {
-	sort.Strings(names)
-	info := make([]PathInfo, 0)
-	for _, name := range names {
-		if name == ".DS_Store" || name == ".git" || name == ".idea" {
+// filter deletes files from list if they shouldn't be printed and removes entries that break tests and should be ignored.
+func filter(dirInfo []os.FileInfo, printFiles bool) []os.FileInfo {
+	newDirInfo := make([]os.FileInfo, 0, len(dirInfo))
+	for _, file := range dirInfo {
+		name := file.Name()
+		if name == ".DS_Store" || name == ".git" || name == ".idea" || (!file.IsDir() && !printFiles) {
 			continue
 		}
-		p, err := os.Stat(path + string(os.PathSeparator) + name)
-		if err != nil {
-			return info, err
-		}
-		if p.Mode().IsDir() {
-			info = append(info, PathInfo{name, true})
-		} else if printFiles{
-			if p.Size() > 0 {
-				info = append(info, PathInfo{name + " (" + strconv.FormatInt(p.Size(), 10) + "b)", false})
-			} else {
-				info = append(info, PathInfo{name + " (empty)", false})
-			}
-		}
+		newDirInfo = append(newDirInfo, file)
 	}
-	return info, nil
+	return newDirInfo
 }
 
-func write(out io.Writer, str string) error {
-	for n, err := fmt.Fprint(out, str); n < len(str); {
+
+// write performs buffered write of entire string.
+func write(out io.Writer, str string) (err error) {
+	for n, err := io.WriteString(out, str); err == nil && n < len(str); {
+		str = str[n:]
+	}
+	return err
+}
+
+// buildDirTree recursively outputs the directory tree
+func buildDirTree(out io.Writer, path, prefix string, printFiles bool) error {
+	dirInfo, err := ioutil.ReadDir(path)
+	if err != nil {
+		return err
+	}
+	dirInfo = filter(dirInfo, printFiles)
+	var newPrefix, line, name string
+	for i, info := range dirInfo {
+		if i == len(dirInfo)-1 {
+			newPrefix, line = prefix+"\t", "└───"
+		} else {
+			newPrefix, line = prefix+"│\t", "├───"
+		}
+		name = info.Name()
+		if info.IsDir() {
+			if err = write(out, prefix+line+name+"\n"); err != nil {
+				return err
+			}
+			err = buildDirTree(out, path+string(os.PathSeparator)+name, newPrefix, printFiles)
+		} else {
+			if info.Size() > 0 {
+				err = write(out, prefix+line+name+" ("+strconv.FormatInt(info.Size(), 10)+"b)\n")
+			} else {
+				err = write(out, prefix+line+name+" (empty)\n")
+			}
+		}
 		if err != nil {
 			return err
 		}
-		str = str[n:]
 	}
 	return nil
 }
 
-func buildDirTree(out io.Writer, path, prefix string, printFiles bool) error {
+// dirTree checks if path specified is pointing to directory and runs the recursive tree building function.
+func dirTree(out io.Writer, path string, printFiles bool) error {
 	p, err := os.Stat(path)
 	if err != nil {
 		return err
@@ -56,41 +73,6 @@ func buildDirTree(out io.Writer, path, prefix string, printFiles bool) error {
 	if !p.Mode().IsDir() {
 		return errors.New("given path is not a directory")
 	}
-	dir, err := os.Open(path)
-	defer dir.Close()
-	if err != nil {
-		return err
-	}
-	names, err := dir.Readdirnames(0)
-	if err != nil {
-		return err
-	}
-	info, err := filter(names, path, printFiles)
-	if err != nil {
-		return err
-	}
-	var newPrefix, line string
-	for i, pathInfo := range info {
-		if i == len(info) - 1 {
-			newPrefix, line = prefix + "\t", "└───"
-		} else {
-			newPrefix, line = prefix + "│\t", "├───"
-		}
-		err = write(out, prefix + line + pathInfo.Name + "\n")
-		if err != nil {
-			return err
-		}
-		if pathInfo.IsDir {
-			err = buildDirTree(out, path + string(os.PathSeparator) + pathInfo.Name, newPrefix, printFiles)
-			if err != nil {
-				return err
-			}
-		}
-	}
-	return nil
-}
-
-func dirTree(out io.Writer, path string, printFiles bool) error {
 	return buildDirTree(out, path, "", printFiles)
 }
 
