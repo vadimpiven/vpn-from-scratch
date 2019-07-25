@@ -6,4 +6,5 @@
 3. Network connection basics, parts 2-3 (2019/07/16)
 4. Network connection basics, parts 4-5 (2019/07/17)
 5. Network connection basics, parts 6-7 (2019/07/18)
-6. Web services development on Go - language basics (2019/07/22)
+6. Web services development on Go - language basics, week 1 (2019/07/22)
+7. Web services development on Go - language basics, week 2 (2019/07/23)

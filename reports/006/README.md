@@ -1,4 +1,4 @@
-# Web services development on Go - language basics (2019/07/22)
+# Web services development on Go - language basics, week 1 (2019/07/22)
 
 ## Go for new gophers
 - garbage collector
@@ -15,7 +15,7 @@
 - is standard library there are types `complex64` and `complex128`, functions for them are stored in `math/cmplx`
 - you should write `fallthrough` inside `switch` to imitate default C language behaviour
 - `for i,v := range map` will always give different order of keys because internally the begining index is not `0` but `rand()`
-- second returning value of type `error` (all error types should implement error interface `func (e MyError) Error() string`) is used in GO insted try-catch blocks, in some situations `panic("error")` and `defer recover()` could be used for this purpose
+- second returning value of type `error` (all error types should implement error interface `func (e MyError) Error() string`) is used in Go insted try-catch blocks, in some situations `panic("error")` and `defer recover()` could be used for this purpose
 - private and public keywords are not used, instead private fields and variables names begin from low-case letters while public field and global variable names - from capital letters
 - new unassigned variables contain default value (0, false, etc.) instead of some rubbish as in C
 - encapsulation is replased with embedding (all fields and functions of embedded structure will be merged into new one), operator overloading is not possible (all operations should be implemented through the interfaces of structure methods or, in case of new, with `pkg.New()` function)
@@ -23,7 +23,7 @@
 - begining from early August 2019 only officially supported package manager is go modules
 - test files should have suffix `test` in their names, test function names should begin with `Test`, their signature should be `func TestFunc(t *testing.T)` and `go test -v` should be used to perform tests
 - to make possible generating beautiful documentation with `godoc` comments for functions and packages should be written above function names and package name, they should begin with correspongind name and end with dot (in order to look as a finished sentence)
-- no `;` are needed in GO, so curly bracket should be placed only in same line with control sequence name (`if true {`), not in the new line
+- no `;` are needed in Go, so curly bracket should be placed only in same line with control sequence name (`if true {`), not in the new line
 
 ## Sources
 - [Введение в Golang. Лекция 1](golang-1.pdf)
