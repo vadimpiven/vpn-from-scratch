@@ -12,7 +12,7 @@
 - `ticker := time.NewTicker` is used to do some job after specified time interval (`for tickTime := range ticker.C`) while `ticker.Stop()` is not called (`range time.Tick` could be used for shortage if calling stop function is not expected)
 - `timer := time.AfterFunc` is used to call some function once after fixed timespan (`timer.Stop()` will stop the timer and function will never be called)
 - `ctx, finish := context.WithCancel(context.Background())` allows to wait only for the first several goroutines to finish execution, when `finish()` is called, `select case <-ctx.Done()` is executed inside goroutine (if second argument is passed `ctx, finish := context.WithTimeout(context.Background(), workTime)` function `finish()` would be called automatically with `workTime` delay
-- concurrent read and write operations cause races inside the program, `race` argument for build utility could be used to detect them
+- concurrent read and write operations cause races inside the program, `-race` compiler flag could be used to detect them
 - `mu := &sync.Mutex{}` could be used to get read of races, lines `mu.Lock()` and `mu.Unlock()` should be used before and after concurrent read and write operations (mutex should be passed to function as a pointer `mu *sync.Mutex`)
 - mutexes are rather bulk ans mostly used for complex io operations, they are built on top of atomic package, direct use of atomic (which provide functions for interacting with individual primitive variables) could be more effective, for example `atomic.AddInt32(&totalOperations, 1)` will atomically increment `totalOperations` variable
 
