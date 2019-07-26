@@ -52,6 +52,7 @@ All packages addressed to private IP will be discarded by ISP.
 ## MAC address
 MAC address FF:FF:FF:FF:FF:FF means that frame is addressed to all devices in local VLAN. This is used by ARP requests. If recipient is located not in local VLAN, then MAC address of switch is used instead of recipient's MAC address and frame is sent to 'default gateway'.
 
+
 ## Sources
 - [Safe data transfer](Safe_data_transfer.pdf)
 - [Что такое TLS-рукопожатие и как оно устроено](https://tproger.ru/articles/tls-handshake-explained/)
