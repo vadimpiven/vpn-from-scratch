@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf46f868-dee8-45c4-b8d9-b4283381e78a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/hw2.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/hw2_signer.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/signer.go" beforeDir="false" afterPath="$PROJECT_DIR$/signer.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,19 +17,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/common.go">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="19" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="19" />
+              <folding>
+                <element signature="e#14#93#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/signer.go">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="205">
+              <caret line="17" column="22" lean-forward="true" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+              <folding>
+                <element signature="e#14#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_test.go">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="41" selection-start-line="41" selection-end-line="41" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -33,6 +56,14 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>DataSignerSalt</find>
+      <find>hashSignJobs</find>
+      <find>close</find>
+      <find>fatal error: all goroutines are asleep - deadlock!</find>
+    </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/Cellar/go/1.12.7/libexec" />
   <component name="Git.Settings">
@@ -43,6 +74,7 @@
       <list>
         <option value="$PROJECT_DIR$/hw2.md" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/signer.go" />
       </list>
     </option>
   </component>
@@ -95,6 +127,72 @@
       </list>
     </option>
   </component>
+  <component name="RunManager" selected="Go Test.TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer">
+    <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="hw2_signer" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestPipeline$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestSigner in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="hw2_signer" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestSigner$" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go Test.TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" />
+      <item itemvalue="Go Test.TestSigner in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" />
+        <item itemvalue="Go Test.TestSigner in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TestHistory">
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 34m 08s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 42m 46s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 44m 15s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 44m 17s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 45m 32s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 47m 03s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 49m 06s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 49m 33s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 53m 22s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestPipeline_in_github_com_vadimpiven_vpn-from-scratch_reports_007_hw2_signer - 2019.07.26 at 21h 53m 24s.xml">
+      <configuration name="TestPipeline in github.com/vadimpiven/vpn-from-scratch/reports/007/hw2_signer" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+  </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
@@ -106,18 +204,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24969475" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12087912" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32941177" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" weight="0.32941177" />
+      <window_info anchor="bottom" id="Version Control" weight="0.32941177" />
+      <window_info anchor="bottom" id="Terminal" weight="0.32941177" />
+      <window_info anchor="bottom" id="Event Log" sideWeight="0.50061053" side_tool="true" weight="0.32941177" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4993895" visible="true" weight="0.32941177" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -132,28 +231,68 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/signer.go</url>
+          <line>9</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/go.mod">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extra_test.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="19" />
+          <folding>
+            <element signature="e#14#93#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="630">
+          <first_editor relative-caret-position="322">
             <caret line="59" column="77" lean-forward="true" selection-start-line="59" selection-start-column="77" selection-end-line="59" selection-end-column="77" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/signer.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_test.go">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/extra_test.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common.go">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/signer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="17" column="22" lean-forward="true" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding>
+            <element signature="e#14#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">
