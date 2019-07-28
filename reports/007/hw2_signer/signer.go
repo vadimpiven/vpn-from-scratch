@@ -51,9 +51,8 @@ func SingleHash(in, out chan interface{}) {
 	wge.Wait()
 }
 
-var num = [6]string{"0", "1", "2", "3", "4", "5"}
-
 func MultiHash(in, out chan interface{}) {
+	var num = [6]string{"0", "1", "2", "3", "4", "5"}
 	wge := &sync.WaitGroup{}
 	for val := range in {
 		wge.Add(1)
