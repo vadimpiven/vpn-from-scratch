@@ -41,7 +41,7 @@ func SingleHash(in, out chan interface{}) {
 				defer wgi.Done()
 				q <- struct{}{}
 				val = DataSignerMd5(val)
-				<- q
+				<-q
 				crc2 = DataSignerCrc32(val)
 			}(val)
 			wgi.Wait()
@@ -52,6 +52,7 @@ func SingleHash(in, out chan interface{}) {
 }
 
 var num = [6]string{"0", "1", "2", "3", "4", "5"}
+
 func MultiHash(in, out chan interface{}) {
 	wge := &sync.WaitGroup{}
 	for val := range in {
@@ -65,7 +66,7 @@ func MultiHash(in, out chan interface{}) {
 				go func(i int, val string) {
 					defer wgi.Done()
 					res[i] = DataSignerCrc32(val)
-				}(i, th + val)
+				}(i, th+val)
 			}
 			wgi.Wait()
 			out <- res[0] + res[1] + res[2] + res[3] + res[4] + res[5]
