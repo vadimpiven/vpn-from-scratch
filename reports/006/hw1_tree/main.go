@@ -5,10 +5,11 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strconv"
 )
 
-// filter deletes files from list if they shouldn't be printed and removes entries that break tests and should be ignored.
+// filter deletes files from list if they shouldn't be printed, removes entries that break tests and should be ignored.
 func filter(dirInfo []os.FileInfo, printFiles bool) []os.FileInfo {
 	newDirInfo := make([]os.FileInfo, 0, len(dirInfo))
 	for _, file := range dirInfo {
@@ -20,7 +21,6 @@ func filter(dirInfo []os.FileInfo, printFiles bool) []os.FileInfo {
 	}
 	return newDirInfo
 }
-
 
 // write performs buffered write of entire string.
 func write(out io.Writer, str string) (err error) {
@@ -49,7 +49,7 @@ func buildDirTree(out io.Writer, path, prefix string, printFiles bool) error {
 			if err = write(out, prefix+line+name+"\n"); err != nil {
 				return err
 			}
-			err = buildDirTree(out, path+string(os.PathSeparator)+name, newPrefix, printFiles)
+			err = buildDirTree(out, filepath.Join(path, name), newPrefix, printFiles) // path+string(os.PathSeparator)+name
 		} else {
 			if info.Size() > 0 {
 				err = write(out, prefix+line+name+" ("+strconv.FormatInt(info.Size(), 10)+"b)\n")
