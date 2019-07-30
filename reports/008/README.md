@@ -39,7 +39,7 @@ func PrintReflect(u interface{}) error {
     - `html` embedding HTML files into go sourcecode
     - `bindata` translating binary files such as JPEGs into byte arrays in Go source
 - benchmarks in Go are placed inside `test` files, function names begin with `Benchmark`, argument is `b *testing.B`, inside should be a loop `for i := 0; i < b.N; i++ {...}`, command `go test -bench` is used to execute benchmarks, to display memory usage as well as time consumption command `go test -bench . -benchmem` should be performed
-- memory and cpu usage profiling could be done with `go test -bench . -benchmem -cpuprofile=cpu.out -memprofile=mem.out -memprofilerate=1 unpack_test.go` and then analised with `pprof` tool
+- memory and cpu usage profiling could be done with `go test -bench . -benchmem -cpuprofile=cpu.out -memprofile=mem.out -memprofilerate=1 unpack_test.go` and then analised with `go tool pprof` (output types are `--text`, `--web`, `--list`)
 - `sync.Pool` could be used to reduce number of new memory allocations inside program when some typical objects are created and then removed, to use it you should first create new pool as shown below, then get memory from pool with `data := dataPool.Get().(*bytes.Buffer)`, use it any way you want, reset to default values with `data.Reset()` and return to pool with `dataPool.Put(data)`
 ```go
 var dataPool = sync.Pool{
@@ -60,7 +60,25 @@ func BenchmarkAllocNew(b *testing.B) {
 ```
 - test coverage persantage could be calculated with `go test -v -cover`, to get more reach output you can run `go test -coverprofile=cover.out` and then `go tool cover -html=cover.out -o cover.html` to visualise covered (green-colored) and uncovered (red-colored) parts of code
 - XML could be decoded with package `xml`, important thing is that while decoding JSON or XML all data is simultanously loaded into memory, if data is large - we can bump into lack of memory, to avoid this input data should be processed in sycle, reader `input := bytes.NewReader(xmlData)` and decoder `decoder := xml.NewDecoder(input)` sould be created, then we read new portion of data `tok, tokenErr := decoder.Token()` while `tokenErr != io.EOF` and process it with `err := decoder.DecodeElement(&login, &tok)`
+- `GOGC=off` before `go test`, `go run`, etc. allows to disable gabbage collector, doing this can speed up small scripts
+- linux default profiler `perf` could also be used with Go programs (`sudo perf top -p $(pidof systemtap)`), it shows linux kernal stack trace in addition to Go profiler output
+- test helpers could be used by multiple test cases, function name should start with `test`, first line of function should be `t.Helper()` to hide output of this function (it must never return an error)
+- `func TestMain(m *testing.M)` could be used to make some setup before and after running tests with `m.Run()`
+- `init()` functions can be used within a package block and regardless of how many times that package is imported, the `init()` function will only be called once, it will be executed before `func main()` and before `func TestMain(m *testing.M)`, moreover you can have two separate `init()` functions inside each `.go` file if you need it, they will execute following the order you write them
+- goroutines in `syscall` state consume an OS thread, other goroutines do not (except for goroutines that called `runtime.LockOSThread`)
+- `//go:noinline` comment just above the function name restricts Go compiler to optimise function into inline one
 
 ## Sources
 - [Введение в Golang. Лекция 3](golang-3.pdf)
 - [Генерация кода в Go](https://habr.com/ru/post/269887/)
+- [Go Reflection: Creating Objects from Types -- Part I (Primitive Types)](https://medium.com/kokster/go-reflection-creating-objects-from-types-part-i-primitive-types-6119e3737f5d)
+- [Go Reflection: Creating Objects from Types -- Part II (Composite Types)](https://medium.com/kokster/go-reflection-creating-objects-from-types-part-ii-composite-types-69a0e8134f20y)
+- [Профилирование и оптимизация программ на Go](https://habr.com/ru/company/badoo/blog/301990/)
+- [Профилирование и оптимизация веб-приложений на Go](https://habr.com/ru/company/badoo/blog/324682/)
+- [pprof user interface](https://rakyll.org/pprof-ui/)
+- [Инструменты для разработчика Go: знакомимся с лейблами профайлера](https://habr.com/ru/company/badoo/blog/332636/)
+- [Five things that make Go fast](https://dave.cheney.net/2014/06/07/five-things-that-make-go-fast)
+- [TestMain—What is it Good For?](http://cs-guy.com/blog/2015/01/test-main/)
+- [The Go init Function](https://tutorialedge.net/golang/the-go-init-function/)
+- [Advanced Testing in Go](https://about.sourcegraph.com/go/advanced-testing-in-go)
+- [Debugging performance issues in Go programs](https://github.com/golang/go/wiki/Performance)
