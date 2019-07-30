@@ -10,7 +10,7 @@ tidy: ## Prune any no-longer-needed dependencies
 
 .PHONY: fmt
 fmt: tidy ## Run gofmt and goimports
-	@find . -name '*.go' | while read -r file; do gofmt -w -s "${file}"; goimports -w "${file}"; done
+	@find . -name '*.go' | while read -r file; do gofmt -w -s "$$file"; goimports -w "$$file"; done
 
 .PHONY: lint
 lint: fmt ## Check for outdated dependencies and run all the linters
