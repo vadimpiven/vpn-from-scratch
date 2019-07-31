@@ -25,8 +25,8 @@ bench: ## Run all the benchmarks
 	go test -bench . -benchmem
 
 .PHONY: profile
-profile: ## Writes CPU and memory usage profiles for BenchmarkFast
-	@go test -bench BenchmarkFast -run=^$ . -benchmem -cpuprofile=cpu.out -memprofile=mem.out -memprofilerate=1
+profile: clean ## Writes CPU and memory usage profiles for BenchmarkFast
+	@GOGC=off go test -bench BenchmarkFast -run=^$ . -benchmem -cpuprofile=cpu.out -memprofile=mem.out -memprofilerate=1
 
 .PHONY: profcpu
 profcpu: ## Visualise CPU profile
@@ -38,7 +38,7 @@ profmem: ## Visualise memory profile
 
 .PHONY: clean
 clean: ## Remove CPU and memory usage profiles
-	@rm cpu.out mem.out
+	@rm -f cpu.out mem.out 2> /dev/null
 
 .PHONY: help
 help:

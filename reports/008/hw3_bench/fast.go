@@ -2,13 +2,14 @@ package main
 
 import (
 	"bufio"
-	"github.com/mailru/easyjson"
-	"github.com/mailru/easyjson/jlexer"
+	"bytes"
 	"io"
 	"os"
-	"runtime"
 	"strconv"
 	"strings"
+
+	"github.com/mailru/easyjson"
+	"github.com/mailru/easyjson/jlexer"
 )
 
 // Close allows not to ignore potential error inside `defer`.
@@ -19,69 +20,70 @@ func Close(c io.Closer) {
 	}
 }
 
-// readFileToChan reads line by line from given `path` and writes to `lines` channel.
-func readFileToChan(path string, lines chan<- string) {
-	defer close(lines)
-	f, err := os.Open(path)
+// FastSearch reads log output from `filePath` and outputs all unique users and browsers.
+func FastSearch(out io.Writer) {
+	f, err := os.Open(filePath)
 	defer Close(f)
 	if err != nil {
 		panic(err)
 	}
+
 	s := bufio.NewScanner(f)
-	for s.Scan() {
-		lines <- s.Text()
-		runtime.Gosched()
-	}
-	if err := s.Err(); err != nil {
-		panic(err)
-	}
-}
-
-// FastSearch reads log output from `filePath` and outputs all unique users and browsers.
-func FastSearch(out io.Writer) {
-	lines := make(chan string, 100)
-	go readFileToChan(filePath, lines)
-
-	seenBrowsers, uniqueBrowsers, foundUsers, isAndroid, isMSIE, user, i, j :=
-		make(map[string]struct{}, 128), 0, make([]byte, 0, 1024), false, false, &User{}, int64(0), 0
-	for line := range lines {
-		err := easyjson.Unmarshal([]byte(line), user)
-		if err != nil {
-			panic(err)
-		}
-
-		isAndroid, isMSIE = false, false
-		for _, browser := range user.Browsers {
-			if strings.Contains(browser, "Android") {
-				isAndroid = true
-				if _, ok := seenBrowsers[browser]; !ok {
-					seenBrowsers[browser] = struct{}{}
-					uniqueBrowsers++
-				}
-			} else if strings.Contains(browser, "MSIE") {
-				isMSIE = true
-				if _, ok := seenBrowsers[browser]; !ok {
-					seenBrowsers[browser] = struct{}{}
-					uniqueBrowsers++
+	seenBrowsers, foundUsers, isAndroid, isMSIE, user, i, j :=
+		make([]string, 0, 128), make([]byte, 0, 16384), false, false, &User{}, uint64(0), 0
+	for ; s.Scan(); i++ {
+		if bytes.Contains(s.Bytes(), []byte("Android")) || bytes.Contains(s.Bytes(), []byte("MSIE")) {
+			err := easyjson.Unmarshal(s.Bytes(), user)
+			if err != nil {
+				panic(err)
+			}
+			isAndroid, isMSIE = false, false
+			for _, browser := range user.Browsers {
+				if strings.Contains(browser, "Android") {
+					isAndroid = true
+					notSeenBefore := true
+					for _, item := range seenBrowsers {
+						if item == browser {
+							notSeenBefore = false
+							break
+						}
+					}
+					if notSeenBefore {
+						seenBrowsers = append(seenBrowsers, browser)
+					}
+				} else if strings.Contains(browser, "MSIE") {
+					isMSIE = true
+					notSeenBefore := true
+					for _, item := range seenBrowsers {
+						if item == browser {
+							notSeenBefore = false
+							break
+						}
+					}
+					if notSeenBefore {
+						seenBrowsers = append(seenBrowsers, browser)
+					}
 				}
 			}
+			if isAndroid && isMSIE {
+				j = strings.Index(user.Email, "@")
+				foundUsers = append(foundUsers, []byte("[")...)
+				foundUsers = strconv.AppendUint(foundUsers, i, 10)
+				foundUsers = append(foundUsers, []byte("] ")...)
+				foundUsers = append(foundUsers, []byte(user.Name)...)
+				foundUsers = append(foundUsers, []byte(" <")...)
+				foundUsers = append(foundUsers, []byte(user.Email[:j])...)
+				foundUsers = append(foundUsers, []byte(" [at] ")...)
+				foundUsers = append(foundUsers, []byte(user.Email[j+1:])...)
+				foundUsers = append(foundUsers, []byte(">\n")...)
+			}
 		}
-		if isAndroid && isMSIE {
-			j = strings.Index(user.Email, "@")
-			foundUsers = append(foundUsers,[]byte("[")...)
-			foundUsers = strconv.AppendInt(foundUsers, i, 10)
-			foundUsers = append(foundUsers,[]byte("] ")...)
-			foundUsers = append(foundUsers,[]byte(user.Name)...)
-			foundUsers = append(foundUsers,[]byte(" <")...)
-			foundUsers = append(foundUsers,[]byte(user.Email[:j])...)
-			foundUsers = append(foundUsers,[]byte(" [at] ")...)
-			foundUsers = append(foundUsers,[]byte(user.Email[j+1:])...)
-			foundUsers = append(foundUsers,[]byte(">\n")...)
-		}
-		i++
+	}
+	if err = s.Err(); err != nil {
+		panic(err)
 	}
 
-	err := write(out, "found users:\n"+string(foundUsers)+"\nTotal unique browsers "+strconv.Itoa(len(seenBrowsers))+"\n")
+	err = write(out, "found users:\n"+string(foundUsers)+"\nTotal unique browsers "+strconv.Itoa(len(seenBrowsers))+"\n")
 	if err != nil {
 		panic(err)
 	}
@@ -126,28 +128,24 @@ func (out *User) UnmarshalEasyJSON(in *jlexer.Lexer) {
 		case "browsers":
 			if in.IsNull() {
 				in.Skip()
-				out.Browsers = nil
+				out.Browsers = (out.Browsers)[:0]
 			} else {
 				in.Delim('[')
 				if out.Browsers == nil {
-					if !in.IsDelim(']') {
-						out.Browsers = make([]string, 0, 4)
-					} else {
-						out.Browsers = []string{}
-					}
+					out.Browsers = make([]string, 0, 4)
 				} else {
 					out.Browsers = (out.Browsers)[:0]
 				}
 				for !in.IsDelim(']') {
-					out.Browsers = append(out.Browsers, string(in.String()))
+					out.Browsers = append(out.Browsers, in.String())
 					in.WantComma()
 				}
 				in.Delim(']')
 			}
 		case "email":
-			out.Email = string(in.String())
+			out.Email = in.UnsafeString()
 		case "name":
-			out.Name = string(in.String())
+			out.Name = in.UnsafeString()
 		default:
 			in.SkipRecursive()
 		}
