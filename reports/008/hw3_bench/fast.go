@@ -49,7 +49,7 @@ func FastSearch(out io.Writer) {
 						}
 					}
 					if notSeenBefore {
-						seenBrowsers = append(seenBrowsers, browser)
+						seenBrowsers = append(seenBrowsers, (browser + " ")[:len(browser)])
 					}
 				} else if strings.Contains(browser, "MSIE") {
 					isMSIE = true
@@ -61,7 +61,7 @@ func FastSearch(out io.Writer) {
 						}
 					}
 					if notSeenBefore {
-						seenBrowsers = append(seenBrowsers, browser)
+						seenBrowsers = append(seenBrowsers, (browser + " ")[:len(browser)])
 					}
 				}
 			}
@@ -137,7 +137,7 @@ func (out *User) UnmarshalEasyJSON(in *jlexer.Lexer) {
 					out.Browsers = (out.Browsers)[:0]
 				}
 				for !in.IsDelim(']') {
-					out.Browsers = append(out.Browsers, in.String())
+					out.Browsers = append(out.Browsers, in.UnsafeString())
 					in.WantComma()
 				}
 				in.Delim(']')
