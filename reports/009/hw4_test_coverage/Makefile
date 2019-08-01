@@ -1,6 +1,4 @@
-PREFIX ?= $(shell pwd)
 SOURCE_FILES ?= ./...
-
 TEST_PATTERN ?= .
 TEST_OPTS ?=
 
@@ -23,7 +21,7 @@ tidy: ## Prune any no-longer-needed dependencies
 
 .PHONY: fmt
 fmt: tidy ## Run gofmt and goimports on all go files
-	@find . -name '*.go' | while read -r file; do gofmt -w -s "${file}"; goimports -w "${file}"; done
+	@find . -name '*.go' | while read -r file; do gofmt -w -s "$$file"; goimports -w "$$file"; done
 
 .PHONY: lint
 lint: fmt ## Run all the linters
