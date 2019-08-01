@@ -106,7 +106,17 @@ tmpl, err := template.
         Funcs(tmplFuncs).
         ParseFiles("func.html")
 ```
-- 
+- to benchmark web application you could use default util `ab` (Apache benchmark)
+- to use `pprof` in web app just use `import _ "net/http/pprof"` and then you can dump profile
+    - `curl http://127.0.0.1:8080/debug/pprof/heap -o mem_out.txt` for memory usage
+    - `curl http://127.0.0.1:8080/debug/pprof/profile?seconds=5 -o cpu_out.txt` for cpu usage
+    - `curl http://localhost:8080/debug/pprof/goroutine?debug=2 -o goroutines.txt` for information on goroutines (`goroutines.txt` is a plain text file unlike others)
+    - `curl http://localhost:8080/debug/pprof/trace?seconds=10 -o trace.out` for stack trace
 
 ## Sources
 - [Введение в Golang. Лекция 4](golang-4.pdf)
+- [Writing Web Applications](https://golang.org/doc/articles/wiki/#tmp_7)
+- [Build Web Application with Golang](https://astaxie.gitbooks.io/build-web-application-with-golang/en/)
+- [Webapps in Go, the anti textbook](antitextbookGo.pdf)
+- [Network Programming with Go by Jan Newmarch](http://tumregels.github.io/Network-Programming-with-Go/)
+- [The complete guide to Go net/http timeouts](https://new.blog.cloudflare.com/the-complete-guide-to-golang-net-http-timeouts/)
