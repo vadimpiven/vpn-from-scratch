@@ -49,7 +49,7 @@ func FastSearch(out io.Writer) {
 						}
 					}
 					if notSeenBefore {
-						seenBrowsers = append(seenBrowsers, (browser + " ")[:len(browser)])
+						seenBrowsers = append(seenBrowsers, (browser + "\000")[:len(browser)])
 					}
 				} else if strings.Contains(browser, "MSIE") {
 					isMSIE = true
@@ -61,7 +61,7 @@ func FastSearch(out io.Writer) {
 						}
 					}
 					if notSeenBefore {
-						seenBrowsers = append(seenBrowsers, (browser + " ")[:len(browser)])
+						seenBrowsers = append(seenBrowsers, (browser + "\000")[:len(browser)])
 					}
 				}
 			}
