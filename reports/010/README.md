@@ -28,3 +28,5 @@ func panicMiddleware(next http.Handler)http.Handler {
 
 ## Sources
 - [Разработка веб-сервисов на Go, часть 2. Лекция 1](golang-5.pdf)
+- [The Go language guide. Web application secure coding practices](go-webapp-scp.pdf)
+- [Standard Go Project Layout](https://github.com/golang-standards/project-layout)
