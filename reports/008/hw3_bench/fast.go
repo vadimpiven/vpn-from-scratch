@@ -30,7 +30,8 @@ func FastSearch(out io.Writer) {
 
 	s := bufio.NewScanner(f)
 	seenBrowsers, foundUsers, isAndroid, isMSIE, user, i, j :=
-		make([]string, 0, 128), make([]byte, 0, 16384), false, false, &User{}, uint64(0), 0
+		make([][]byte, 0, 128), make([]byte, 0, 8192), false, false, &User{}, uint64(0), 0
+	foundUsers = append(foundUsers, []byte("found users:\n")...)
 	for ; s.Scan(); i++ {
 		if bytes.Contains(s.Bytes(), []byte("Android")) || bytes.Contains(s.Bytes(), []byte("MSIE")) {
 			err := easyjson.Unmarshal(s.Bytes(), user)
@@ -39,29 +40,31 @@ func FastSearch(out io.Writer) {
 			}
 			isAndroid, isMSIE = false, false
 			for _, browser := range user.Browsers {
-				if strings.Contains(browser, "Android") {
+				if bytes.Contains(browser, []byte("Android")) {
 					isAndroid = true
 					notSeenBefore := true
 					for _, item := range seenBrowsers {
-						if item == browser {
+						if bytes.Equal(item, browser) {
 							notSeenBefore = false
 							break
 						}
 					}
 					if notSeenBefore {
-						seenBrowsers = append(seenBrowsers, (browser + "\000")[:len(browser)])
+						temp := append(browser[:0:0], browser...)
+						seenBrowsers = append(seenBrowsers, temp)
 					}
-				} else if strings.Contains(browser, "MSIE") {
+				} else if bytes.Contains(browser, []byte("MSIE")) {
 					isMSIE = true
 					notSeenBefore := true
 					for _, item := range seenBrowsers {
-						if item == browser {
+						if bytes.Equal(item, browser) {
 							notSeenBefore = false
 							break
 						}
 					}
 					if notSeenBefore {
-						seenBrowsers = append(seenBrowsers, (browser + "\000")[:len(browser)])
+						temp := append(browser[:0:0], browser...)
+						seenBrowsers = append(seenBrowsers, temp)
 					}
 				}
 			}
@@ -83,7 +86,10 @@ func FastSearch(out io.Writer) {
 		panic(err)
 	}
 
-	err = write(out, "found users:\n"+string(foundUsers)+"\nTotal unique browsers "+strconv.Itoa(len(seenBrowsers))+"\n")
+	foundUsers = append(foundUsers, []byte("\nTotal unique browsers ")...)
+	foundUsers = strconv.AppendUint(foundUsers, uint64(len(seenBrowsers)), 10)
+	foundUsers = append(foundUsers, []byte("\n")...)
+	err = write(out, string(foundUsers))
 	if err != nil {
 		panic(err)
 	}
@@ -100,7 +106,7 @@ func write(out io.Writer, str string) (err error) {
 
 // User holds the useful part of data from one line of log file.
 type User struct {
-	Browsers []string `json:"browsers"`
+	Browsers [][]byte `json:"browsers"`
 	Email    string   `json:"email"`
 	Name     string   `json:"name"`
 }
@@ -132,12 +138,12 @@ func (out *User) UnmarshalEasyJSON(in *jlexer.Lexer) {
 			} else {
 				in.Delim('[')
 				if out.Browsers == nil {
-					out.Browsers = make([]string, 0, 4)
+					out.Browsers = make([][]byte, 0, 4)
 				} else {
 					out.Browsers = (out.Browsers)[:0]
 				}
 				for !in.IsDelim(']') {
-					out.Browsers = append(out.Browsers, in.UnsafeString())
+					out.Browsers = append(out.Browsers, in.UnsafeBytes())
 					in.WantComma()
 				}
 				in.Delim(']')
