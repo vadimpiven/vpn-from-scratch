@@ -11,3 +11,4 @@
 8. Web services development on Go - language basics, week 3 (2019/07/24)
 9. Web services development on Go - language basics, week 4 (2019/07/29)
 10. Web services development on Go part 2, week 1 (2019/07/30)
+11. Web services development on Go part 2, week 2 (2019/08/05)
