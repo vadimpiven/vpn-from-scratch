@@ -347,7 +347,6 @@ func main() {
                     Post: js.Method == "POST",
                     Params: Params{
                         Name: currFunc.Type.Params.List[1].Type.(*ast.Ident).Name,
-                        //Fields: make([]Field, 0),
                     },
                 })
 
