@@ -269,6 +269,7 @@ func (srv *MyApi) handlerCreate(w http.ResponseWriter, r *http.Request) {
         }, w)
     }
 }
+
 // ServeHTTP defines functions serving different URLs for OtherApi method handlers.
 func (srv *OtherApi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     switch r.URL.Path {

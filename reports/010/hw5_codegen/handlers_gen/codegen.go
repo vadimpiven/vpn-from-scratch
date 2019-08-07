@@ -194,9 +194,9 @@ func checkMaxInt(name string, value int, max int) error {
         }
     }
     return nil
-}
+} {{- range $name, $methods := .ApiList}}
 
-{{range $name, $methods := .ApiList}}// ServeHTTP defines functions serving different URLs for {{$name}} method handlers.
+// ServeHTTP defines functions serving different URLs for {{$name}} method handlers.
 func (srv *{{$name}}) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     switch r.URL.Path { {{- range $methods}}
     case "{{.URL}}":
@@ -207,8 +207,8 @@ func (srv *{{$name}}) ServeHTTP(w http.ResponseWriter, r *http.Request) {
             Error:  "unknown method",
         }, w)
     }
-}
-{{range $methods}}
+} {{- range $methods}}
+
 // handler{{.Name}} is a handler for {{$name}}.{{.Name}} function.
 func (srv *{{$name}}) handler{{.Name}}(w http.ResponseWriter, r *http.Request) {
     {{if .Post}}if !isPost(w, r) {
@@ -244,8 +244,8 @@ func (srv *{{$name}}) handler{{.Name}}(w http.ResponseWriter, r *http.Request) {
             Result: res,
         }, w)
     }
-}
-{{end}}{{end}}`
+}{{end}}{{end}}
+`
 
 // check function checks for an error and exits if any occurs.
 func check(e error) {
