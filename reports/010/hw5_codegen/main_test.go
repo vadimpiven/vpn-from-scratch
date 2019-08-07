@@ -254,7 +254,7 @@ func TestOtherApi(t *testing.T) {
 	ts := httptest.NewServer(NewOtherApi())
 
 	cases := []Case{
-		Case{
+		{
 			Path:   ApiUserCreate,
 			Method: http.MethodPost,
 			Query:  "username=I3apBap&level=1&class=barbarian&account_name=Vasily",
@@ -264,7 +264,7 @@ func TestOtherApi(t *testing.T) {
 				"error": "class must be one of [warrior, sorcerer, rouge]",
 			},
 		},
-		Case{
+		{
 			Path:   ApiUserCreate,
 			Method: http.MethodPost,
 			Query:  "username=I3apBap&level=1&class=warrior&account_name=Vasily",
