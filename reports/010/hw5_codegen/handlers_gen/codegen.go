@@ -259,7 +259,7 @@ func Flush(w *bufio.Writer) {
 type (
 	// MethodJSON is used to unmarshal JSON describing Method requirements.
 	MethodJSON struct {
-		URL	string `json:"url"`
+		URL	   string `json:"url"`
 		Auth   bool   `json:"auth"`
 		Method string `json:"method"`
 	}
@@ -269,28 +269,28 @@ type (
 		Edge  int
 	}
 	Field struct {
-		Name	  string
+		Name	      string // name of structure field
 		IsString  bool // if not string - it's int
 		Required  bool
-		ParamName string
-		Enum	  []string // used only as Enum = ..., no need for initialisation
-		Default   string
-		Min	   Boundary
-		Max	   Boundary
+		ParamName string // name used to unmarshal incoming data
+		Enum	      []string // used only as Enum = ..., no need for initialisation
+		Default   string // if empty string - no default
+		Min	      Boundary
+		Max	      Boundary
 	}
 	Params struct {
-		Name   string
+		Name   string // name of handler second argument structure type
 		Fields []Field // 0-length slice is created automatically
 	}
 	Method struct {
-		Name   string
-		URL	string
+		Name   string // original method name
+		URL	   string
 		Auth   bool
 		Post   bool
 		Params Params
 	}
 	TemplateArgs struct {
-		Package string
+		Package string // package name
 		ApiList map[string][]Method // 0-length map MUST be created manually, 0-length slice inside map is created automatically
 	}
 )
