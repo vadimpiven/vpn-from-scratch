@@ -305,14 +305,14 @@ func main() {
 		log.SetOutput(ioutil.Discard)
 	}
 
-	src, err := parser.ParseFile(token.NewFileSet(), os.Args[len(os.Args) - 2], nil, parser.ParseComments)
+	src, err := parser.ParseFile(token.NewFileSet(), flag.Arg(0), nil, parser.ParseComments)
 	check(err)
 	args := TemplateArgs{
 		Package: src.Name.Name,
 		ApiList: make(map[string][]Method),
 	}
 
-	f, _ := os.Create(os.Args[len(os.Args) - 1])
+	f, _ := os.Create(flag.Arg(1))
 	defer Close(f)
 
 	w := bufio.NewWriter(f)
