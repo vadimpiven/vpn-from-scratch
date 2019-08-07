@@ -3,10 +3,12 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"flag"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"reflect"
@@ -296,14 +298,21 @@ type (
 )
 
 func main() {
-	src, err := parser.ParseFile(token.NewFileSet(), os.Args[1], nil, parser.ParseComments)
+	var debug = flag.Bool("debug", false, "print debug output")
+	if flag.Parse(); *debug {
+		log.SetOutput(os.Stdout)
+	} else {
+		log.SetOutput(ioutil.Discard)
+	}
+
+	src, err := parser.ParseFile(token.NewFileSet(), os.Args[len(os.Args) - 2], nil, parser.ParseComments)
 	check(err)
 	args := TemplateArgs{
 		Package: src.Name.Name,
 		ApiList: make(map[string][]Method),
 	}
 
-	f, _ := os.Create(os.Args[2])
+	f, _ := os.Create(os.Args[len(os.Args) - 1])
 	defer Close(f)
 
 	w := bufio.NewWriter(f)
