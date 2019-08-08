@@ -1,4 +1,4 @@
-module github.com/vadimpiven/reports/008/hw3_bench
+module github.com/vadimpiven/vpn-from-scratch/reports/008/hw3_bench
 
 go 1.12
 
