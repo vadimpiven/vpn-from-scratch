@@ -67,6 +67,22 @@ func BenchmarkAllocNew(b *testing.B) {
 - `init()` functions can be used within a package block and regardless of how many times that package is imported, the `init()` function will only be called once, it will be executed before `func main()` and before `func TestMain(m *testing.M)`, moreover you can have two separate `init()` functions inside each `.go` file if you need it, they will execute following the order you write them
 - goroutines in `syscall` state consume an OS thread, other goroutines do not (except for goroutines that called `runtime.LockOSThread`)
 - `//go:noinline` comment just above the function name restricts Go compiler to optimise function into inline one
+- inside test files example functions could go, their name should be `ExampleFuncname` where `Funcname` is a name of function the use of which example demonstrates, good example is shown below, this example functions are also performed inside tests to make sure that api haven't changed (the output result is automatically captured and compared with the result following `Output: ` comment)
+```go
+package stringutil_test
+
+import (
+    "fmt"
+
+    "github.com/golang/example/stringutil"
+)
+
+func ExampleReverse() {
+    fmt.Println(stringutil.Reverse("hello"))
+    // Output: olleh
+}
+```
+- test function output should follow the got-expected pattern, not reverse one
 
 ## Sources
 - [Введение в Golang. Лекция 3](golang-3.pdf)
@@ -82,3 +98,4 @@ func BenchmarkAllocNew(b *testing.B) {
 - [The Go init Function](https://tutorialedge.net/golang/the-go-init-function/)
 - [Advanced Testing in Go](https://about.sourcegraph.com/go/advanced-testing-in-go)
 - [Debugging performance issues in Go programs](https://github.com/golang/go/wiki/Performance)
+- [Testable Examples in Go](https://blog.golang.org/examples)
