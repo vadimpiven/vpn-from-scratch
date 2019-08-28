@@ -3,17 +3,17 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"net"
+	"strings"
+	"sync"
+	"time"
+
 	"github.com/golang/protobuf/proto"
-	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/peer"
 	"google.golang.org/grpc/status"
-	"net"
-	"strings"
-	"sync"
-	"time"
 )
 
 type Closer interface {
@@ -33,8 +33,8 @@ type StatHolder struct {
 }
 
 type Server struct {
-	acl    map[string][]string
-	ctx    context.Context
+	acl map[string][]string
+	ctx context.Context
 
 	eList  []chan *Event
 	eMutex sync.RWMutex
@@ -115,7 +115,8 @@ func (s *Server) Logging(req *Nothing, srv Admin_LoggingServer) (err error) {
 	s.eList = append(s.eList, c)
 	s.eMutex.Unlock()
 
-	LOOP: for {
+LOOP:
+	for {
 		select {
 		case <-s.ctx.Done():
 			break LOOP
@@ -152,7 +153,8 @@ func (s *Server) Statistics(req *StatInterval, srv Admin_StatisticsServer) (err 
 	s.sMutex.Unlock()
 
 	t := time.NewTicker(time.Second * time.Duration(req.IntervalSeconds))
-	LOOP: for {
+LOOP:
+	for {
 		select {
 		case <-s.ctx.Done():
 			break LOOP
@@ -210,9 +212,9 @@ func (s *Server) StreamInterceptor(
 	return handler(srv, ss)
 }
 
-func StartMyMicroservice(ctx context.Context, listenAddr, ACLData string) error {
+func StartMyMicroservice(ctx context.Context, listenAddr, aclData string) error {
 	acl := make(map[string][]string)
-	if err := json.Unmarshal([]byte(ACLData), &acl); err != nil {
+	if err := json.Unmarshal([]byte(aclData), &acl); err != nil {
 		return err
 	}
 
@@ -221,10 +223,10 @@ func StartMyMicroservice(ctx context.Context, listenAddr, ACLData string) error 
 		return err
 	}
 
-	g, ctx := errgroup.WithContext(ctx)
+	ctx, cancel := context.WithCancel(ctx)
 	srv := &Server{
-		acl:    acl,
-		ctx:    ctx,
+		acl: acl,
+		ctx: ctx,
 	}
 	s := grpc.NewServer(
 		grpc.StreamInterceptor(srv.StreamInterceptor),
@@ -232,9 +234,11 @@ func StartMyMicroservice(ctx context.Context, listenAddr, ACLData string) error 
 	)
 	RegisterAdminServer(s, srv)
 	RegisterBizServer(s, srv)
-	g.Go(func() error {
-		return s.Serve(l)
-	})
+	go func() {
+		if err := s.Serve(l); err != nil {
+			cancel()
+		}
+	}()
 
 	go func() {
 		<-ctx.Done()
