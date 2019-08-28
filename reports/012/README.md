@@ -19,7 +19,7 @@ err := h.rpcServer.ServeRequest(serverCodec)
 - versioning of application could be easily implemented with the use of package [https://github.com/TrueFurby/version](https://github.com/TrueFurby/version)
 
 ## Sources
-- [Разработка веб-сервисов на Go, часть 2ъ Лекция 3](golang-6.pdf)
+- [Разработка веб-сервисов на Go, часть 2. Лекция 3](golang-6.pdf)
 - [gRPC in Production](https://about.sourcegraph.com/go/grpc-in-production-alan-shreve)
 - [Getting Started with Microservices using Go, gRPC and Kubernetes](https://outcrawl.com/getting-started-microservices-go-grpc-kubernetes)
 - [gRPC-Web: Moving past REST+JSON towards type-safe Web APIs](https://improbable.io/blog/grpc-web-moving-past-restjson-towards-type-safe-web-apis)
